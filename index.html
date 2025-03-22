@@ -3,16 +3,17 @@
 <head>
     <title>MineProject</title>
     <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <div class="container">
-          <img src="media/logo.png" alt="logo" width="90px" height="90px">
+            <img src="media/logo.png" alt="logo" width="90px" height="90px">
             <p class="logo">MineProject</p>
             <nav>
                 <a href="#aboutus">Home</a>
-                <a href="#nuestros-programas">Servidores</a>
-                <a href="#caracteristicas">Características</a>
+                <a href="#crear-servidor">Servidores</a>
+                <a href="#mods">Mods</a>
             </nav>
         </div>
     </header>
@@ -33,24 +34,24 @@
         </div>
     </section>
 
-    <section id="nuestros-programas">
+    <section id="crear-servidor">
         <div class="container">
             <h2>SERVIDORES</h2>
             <div class="programas">
                 <div class="carta">
-                    <h3>Crear Servidor</h3>
-                    <p>Aquí podrás crear tu porpio servidor de Minetest. Tendrás que indicar un puerto y el nombre del usuario con el cual accederás.</p>
-                    <button>Vamos!</button>
+                    <h3>Crear Servidor Personalizado</h3>
+                    <p>Aquí podrás crear tu propio servidor de Minetest. Tendrás que indicar un puerto y el nombre del usuario con el cual accederás.</p>
+                    <button onclick="window.location.href='crear_servidor.html'" class="submit-btn button-animation">Crear Servidor</button>
                 </div>
                 <div class="carta">
-                    <h3>Programador Full-Stack</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt vero corporis incidunt saepe qui commodi quasi neque veniam quam, aspernatur est beatae maxime animi sed reiciendis mollitia ducimus veritatis repellendus?</p>
-                    <button>+ Info</button>
+                    <h3>Servidores Existentes</h3>
+                    <p>Aquí ecnontrarás servidores creados por nosotros mismos. Estos servidores dispondrán de mods predefinidos para que puedas disfrutar de la experiencia de juego.</p>
+                    <button onclick="window.location.href='https://content.luanti.org/packages/'" class="submit-btn button-animation">Ver Servidores</button>
                 </div>
                 <div class="carta">
-                    <h3>Programador Python</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt vero corporis incidunt saepe qui commodi quasi neque veniam quam, aspernatur est beatae maxime animi sed reiciendis mollitia ducimus veritatis repellendus?</p>
-                    <button>+ Info</button>
+                    <h3>Estado del Servidor</h3>
+                    <p>Consulta el estado actual de tu servidor, número de jugadores conectados, rendimiento y recursos disponibles en tiempo real.</p>
+                    <button onclick="window.location.href='estado_servidor.html'" class="submit-btn button-animation">Ver Estado</button>
                 </div>
             </div>
         </div>
@@ -58,20 +59,112 @@
 
     <section id="mods">
         <div class="container">
-            <h1>Inventario</h1>
-            <img src="media/inv.png" width="550" height="500">
-            <br>
-            <h1>Motorboard</h1>
-            <img src="media/motor.webp" width="550" height="500">
-            <br>
-            <img src="media/inv.png" width="600" height="500">
-            <img src="media/inv.png" width="600" height="500">
-        </div>
-    </section>
+            <div class="mods-header">
+                <h1>Mods</h1>
+            </div>
 
-    <section id="final">
-        <h2>Listo para programar?</h2>
-        <button>APLICÁ YA!</button>
+            <div class="mods-grid">
+                <a href="https://content.luanti.org/packages/mt-mods/i3/" target="_blank" class="mod-card">
+                    <div class="mod-image">
+                        <img src="media/inv.png" alt="i3 mod">
+                    </div>
+                    <div class="mod-info">
+                        <h3>i3</h3>
+                        <p class="mod-author">mt-mods</p>
+                        <p class="mod-description">Un inventario de próxima generación</p>
+                        <div class="mod-tags">
+                            <span class="tag">Inventario</span>
+                            <span class="tag">Interfaz</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://content.luanti.org/packages/apercy/motorboat/" target="_blank" class="mod-card">
+                    <div class="mod-image">
+                        <img src="media/motor.webp" alt="Motorboat">
+                    </div>
+                    <div class="mod-info">
+                        <h3>Motorboat</h3>
+                        <p class="mod-author">APercy</p>
+                        <p class="mod-description">Añade una lancha motorizada fabricable con física realista y sistema de combustible.</p>
+                        <div class="mod-tags">
+                            <span class="tag">Transporte</span>
+                            <span class="tag">Vehiculos</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://content.luanti.org/packages/sofar/stamina/" target="_blank" class="mod-card">
+                    <div class="mod-image">
+                        <img src="media/stamina.png" alt="Stamina">
+                    </div>
+                    <div class="mod-info">
+                        <h3>Stamina</h3>
+                        <p class="mod-author">sofar</p>
+                        <p class="mod-description">Añade sistema de resistencia, carrera y hambre al juego.</p>
+                        <div class="mod-tags">
+                            <span class="tag">Efectos</span>
+                            <span class="tag">Supervivencia</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://content.luanti.org/packages/SURV/i_have_hands/" target="_blank" class="mod-card">
+                    <div class="mod-image">
+                        <img src="media/hands.jpg" alt="I Have Hands">
+                    </div>
+                    <div class="mod-info">
+                        <h3>I Have Hands</h3>
+                        <p class="mod-author">SURV</p>
+                        <p class="mod-description">Permite transportar bloques con inventario sin romperlos, como cofres o barriles.</p>
+                        <div class="mod-tags">
+                            <span class="tag">Construcción</span>
+                            <span class="tag">Inventario</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://content.luanti.org/packages/ElCeejo/animalia/" target="_blank" class="mod-card">
+                    <div class="mod-image">
+                        <img src="media/animalia.png" alt="Animalia">
+                    </div>
+                    <div class="mod-info">
+                        <h3>Animalia</h3>
+                        <p class="mod-author">ElCeejo</p>
+                        <p class="mod-description">Añade una gran variedad de vida silvestre y expande la exploración con animales domesticables y salvajes.</p>
+                        <div class="mod-tags">
+                            <span class="tag">Animales</span>
+                            <span class="tag">Supervivencia</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://content.luanti.org/packages/ElCeejo/creatura/" target="_blank" class="mod-card">
+                    <div class="mod-image">
+                        <img src="media/creatura.png" alt="Creatura">
+                    </div>
+                    <div class="mod-info">
+                        <h3>Creatura</h3>
+                        <p class="mod-author">ElCeejo</p>
+                        <p class="mod-description">API de alto rendimiento para crear mobs avanzados con física y pathfinding.</p>
+                        <div class="mod-tags">
+                            <span class="tag">API</span>
+                            <span class="tag">Desarrollo</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://content.luanti.org/packages/?type=mod&sort=score&order=desc" target="_blank" class="mod-card more-mods">
+                    <div class="mod-image" style="display: flex; justify-content: center; align-items: center; background-color: rgba(255, 255, 255, 0.9);">
+                        <div class="plus-symbol">+</div>
+                    </div>
+                    <div class="mod-info">
+                        <h3>Más Mods</h3>
+                        <p class="mod-description">Explora más mods en ContentDB</p>
+                    </div>
+                </a>
+            </div>
+        </div>
     </section>
 
     <footer>

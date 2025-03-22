@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Servidor - MineProject</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #f2f2f2;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 120px;
+            background-color: white;
+            min-height: calc(100vh - 120px);
+        }
+
+        .form-container {
+            width: 90%;
+            max-width: 500px;
+            padding: 25px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+        }
+
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .submit-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+        }
+
+        .result-message {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-line;
+        }
+
+        .result-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .result-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .mods-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .mod-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .mod-option:hover {
+            background: #e0e0e0;
+        }
+
+        .mod-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .mod-option label {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .mod-option label a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .mod-option:hover label a {
+            color: #4CAF50;
+        }
+
+        .mod-option label a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="media/logo.png" alt="logo" width="90px" height="90px">
+            <p class="logo">MineProject</p>
+            <nav>
+                <a href="index.html">Volver al inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2>Crear Nuevo Servidor</h2>
+            <form id="serverForm" onsubmit="return validateForm(event)">
+                <div class="form-group">
+                    <label for="serverName">Nombre del Servidor:</label>
+                    <input type="text" id="serverName" name="serverName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="port">Puerto (30000~):</label>
+                    <input type="number" id="port" name="port" min="30000" max="39999" required>
+                    <div class="error" id="portError">El puerto debe estar entre 30000 y 39999</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Nombre de Usuario:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Mods Disponibles:</label>
+                    <div class="mods-selection">
+                        <div class="mod-option">
+                            <input type="checkbox" id="mod_i3" name="mods" value="i3">
+                            <label for="mod_i3">i3 - Inventario de próxima generación</label>
+                        </div>
+                        <div class="mod-option">
+                            <input type="checkbox" id="mod_motorboat" name="mods" value="motorboat">
+                            <label for="mod_motorboat">Motorboat - Lancha motorizada</label>
+                        </div>
+                        <div class="mod-option">
+                            <input type="checkbox" id="mod_stamina" name="mods" value="stamina">
+                            <label for="mod_stamina">Stamina - Sistema de resistencia y hambre</label>
+                        </div>
+                        <div class="mod-option">
+                            <input type="checkbox" id="mod_hands" name="mods" value="i_have_hands">
+                            <label for="mod_hands">I Have Hands - Transporte de bloques con inventario</label>
+                        </div>
+                        <div class="mod-option">
+                            <input type="checkbox" id="mod_animalia" name="mods" value="animalia">
+                            <label for="mod_animalia">Animalia - Vida silvestre y animales</label>
+                        </div>
+                        <div class="mod-option">
+                            <input type="checkbox" id="mod_creatura" name="mods" value="creatura">
+                            <label for="mod_creatura">Creatura - API para mobs avanzados</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Crear Servidor</button>
+                <div class="loading">Creando servidor, por favor espere...</div>
+                <div class="result-message"></div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        function generateScript(formData) {
+            const imageName = `server-${formData.username}`;
+
+            return `#!/bin/bash
+
+# Crear Dockerfile
+cat > Dockerfile << 'EOF'
+FROM ghcr.io/ronoaldo/luantiserver:stable
+USER root
+RUN apt install nano
+USER luanti
+EOF
+
+# Construir la imagen
+podman build -t ${imageName} .
+
+# Ejecutar el servidor
+podman run -d --name ${formData.serverName} -p ${formData.port}:30000/udp ${imageName}`;
+        }
+
+        function downloadScript(content, filename) {
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        function validateForm(event) {
+            event.preventDefault();
+            
+            const port = document.getElementById('port').value;
+            const portError = document.getElementById('portError');
+            const submitBtn = document.querySelector('.submit-btn');
+            const loadingDiv = document.querySelector('.loading');
+            const resultDiv = document.querySelector('.result-message');
+            
+            if (port < 30000 || port > 39999) {
+                portError.style.display = 'block';
+                return false;
+            }
+            
+            portError.style.display = 'none';
+            submitBtn.disabled = true;
+            loadingDiv.style.display = 'block';
+            resultDiv.style.display = 'none';
+            
+            const formData = {
+                serverName: document.getElementById('serverName').value,
+                port: port,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                mods: Array.from(document.querySelectorAll('input[name="mods"]:checked')).map(mod => mod.value)
+            };
+            
+            // Generar el script
+            const scriptContent = generateScript(formData);
+            const scriptName = `server-${formData.username}-${Date.now()}.sh`;
+            
+            // Descargar el script
+            downloadScript(scriptContent, scriptName);
+            
+            // Mostrar mensaje de éxito
+            loadingDiv.style.display = 'none';
+            resultDiv.textContent = `Script generado correctamente:\n` +
+                                  `Nombre del servidor: ${formData.serverName}\n` +
+                                  `Puerto: ${formData.port}\n` +
+                                  `Nombre del script: ${scriptName}\n\n` +
+                                  `El script se ha descargado. Ejecútalo en el servidor para crear el contenedor.`;
+            resultDiv.className = 'result-message success';
+            resultDiv.style.display = 'block';
+            
+            // Redirigir después de 5 segundos
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 5000);
+            
+            return false;
+        }
+    </script>
+</body>
+</html> 
