@@ -194,7 +194,7 @@
     <main>
         <div class="form-container">
             <h2>Crear Nuevo Servidor</h2>
-            <form id="serverForm" onsubmit="return validateForm(event)">
+            <form id="serverForm" action="generar_script.php" method="POST" onsubmit="return validateForm(event)">
                 <div class="form-group">
                     <label for="serverName">Nombre del Servidor:</label>
                     <input type="text" id="serverName" name="serverName" required>
@@ -242,6 +242,18 @@
                         <div class="mod-option">
                             <input type="checkbox" id="mod_creatura" name="mods" value="creatura">
                             <label for="mod_creatura">Creatura - API para mobs avanzados</label>
+                        </div>
+                        <div class="mod-option">
+                            <input type="checkbox" id="mod_hidename" name="mods" value="hidename">
+                            <label for="mod_hidename">Hide Name - Ocultar etiqueta de nombre</label>
+                        </div>
+                        <div class="mod-option">
+                            <input type="checkbox" id="mod_knives" name="mods" value="knives">
+                            <label for="mod_knives">Knives - Cuchillos con daño extremo</label>
+                        </div>
+                        <div class="mod-option">
+                            <input type="checkbox" id="mod_toolranks" name="mods" value="toolranks">
+                            <label for="mod_toolranks">Tool Ranks - Sistema de niveles para herramientas</label>
                         </div>
                     </div>
                 </div>
@@ -303,35 +315,49 @@ podman run -d --name ${formData.serverName} -p ${formData.port}:30000/udp ${imag
             loadingDiv.style.display = 'block';
             resultDiv.style.display = 'none';
             
-            const formData = {
-                serverName: document.getElementById('serverName').value,
-                port: port,
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value,
-                mods: Array.from(document.querySelectorAll('input[name="mods"]:checked')).map(mod => mod.value)
-            };
+            // Crear FormData
+            const formData = new FormData(document.getElementById('serverForm'));
             
-            // Generar el script
-            const scriptContent = generateScript(formData);
-            const scriptName = `server-${formData.username}-${Date.now()}.sh`;
-            
-            // Descargar el script
-            downloadScript(scriptContent, scriptName);
-            
-            // Mostrar mensaje de éxito
-            loadingDiv.style.display = 'none';
-            resultDiv.textContent = `Script generado correctamente:\n` +
-                                  `Nombre del servidor: ${formData.serverName}\n` +
-                                  `Puerto: ${formData.port}\n` +
-                                  `Nombre del script: ${scriptName}\n\n` +
-                                  `El script se ha descargado. Ejecútalo en el servidor para crear el contenedor.`;
-            resultDiv.className = 'result-message success';
-            resultDiv.style.display = 'block';
-            
-            // Redirigir después de 5 segundos
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 5000);
+            // Enviar el formulario con fetch
+            fetch('generar_script.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingDiv.style.display = 'none';
+                if (data.success) {
+                    resultDiv.textContent = `Servidor creado exitosamente:\n` +
+                                          `Nombre del servidor: ${data.details.nombre_servidor}\n` +
+                                          `Puerto: ${data.details.puerto}\n` +
+                                          `Imagen: ${data.details.imagen}\n` +
+                                          `Directorio: ${data.details.directorio}\n\n` +
+                                          `El servidor está en ejecución. Puedes conectarte usando el cliente Minetest.`;
+                    resultDiv.className = 'result-message success';
+                } else {
+                    resultDiv.textContent = `Error: ${data.message}\n\n` +
+                                          `Por favor, verifica que:\n` +
+                                          `1. Tienes permisos de escritura en el directorio\n` +
+                                          `2. Podman está instalado y funcionando\n` +
+                                          `3. Tienes conexión a internet para descargar la imagen base`;
+                    resultDiv.className = 'result-message error';
+                }
+                resultDiv.style.display = 'block';
+                
+                // Redirigir después de 5 segundos
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 5000);
+            })
+            .catch(error => {
+                loadingDiv.style.display = 'none';
+                resultDiv.textContent = `Error al crear el servidor: ${error.message}`;
+                resultDiv.className = 'result-message error';
+                resultDiv.style.display = 'block';
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+            });
             
             return false;
         }
