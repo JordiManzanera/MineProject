@@ -343,11 +343,6 @@ podman run -d --name ${formData.serverName} -p ${formData.port}:30000/udp ${imag
                     resultDiv.className = 'result-message error';
                 }
                 resultDiv.style.display = 'block';
-                
-                // Redirigir después de 5 segundos
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 5000);
             })
             .catch(error => {
                 loadingDiv.style.display = 'none';
