@@ -325,24 +325,72 @@ podman run -d --name ${formData.serverName} -p ${formData.port}:30000/udp ${imag
             })
             .then(response => response.json())
             .then(data => {
-                loadingDiv.style.display = 'none';
                 if (data.success) {
-                    resultDiv.textContent = `Servidor creado exitosamente:\n` +
-                                          `Nombre del servidor: ${data.details.nombre_servidor}\n` +
-                                          `Puerto: ${data.details.puerto}\n` +
-                                          `Imagen: ${data.details.imagen}\n` +
-                                          `Directorio: ${data.details.directorio}\n\n` +
-                                          `El servidor está en ejecución. Puedes conectarte usando el cliente Minetest.`;
-                    resultDiv.className = 'result-message success';
+                    // Verificar si hay mods seleccionados
+                    const mods = Array.from(document.querySelectorAll('input[name="mods"]:checked')).map(cb => cb.value);
+                    if (mods.length > 0) {
+                        loadingDiv.textContent = 'Instalando mods, por favor espere...';
+                        
+                        // Ejecutar el script de instalación de mods
+                        fetch('instalar_mods.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                serverName: formData.get('serverName'),
+                                mods: mods
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(modData => {
+                            loadingDiv.style.display = 'none';
+                            if (modData.success) {
+                                resultDiv.textContent = `Servidor creado exitosamente:\n` +
+                                                      `Nombre del servidor: ${data.details.nombre_servidor}\n` +
+                                                      `Puerto: ${data.details.puerto}\n` +
+                                                      `Imagen: ${data.details.imagen}\n` +
+                                                      `Directorio: ${data.details.directorio}\n` +
+                                                      `Mods instalados: ${mods.join(', ')}\n\n` +
+                                                      `El servidor está en ejecución. Puedes conectarte usando el cliente Minetest.`;
+                                resultDiv.className = 'result-message success';
+                            } else {
+                                resultDiv.textContent = `Error al instalar mods: ${modData.message}\n\n` +
+                                                      `Por favor, verifica que:\n` +
+                                                      `1. El servidor está en ejecución\n` +
+                                                      `2. Tienes permisos para instalar mods\n` +
+                                                      `3. Tienes conexión a internet para descargar los mods`;
+                                resultDiv.className = 'result-message error';
+                            }
+                            resultDiv.style.display = 'block';
+                        })
+                        .catch(error => {
+                            loadingDiv.style.display = 'none';
+                            resultDiv.textContent = `Error al instalar mods: ${error.message}`;
+                            resultDiv.className = 'result-message error';
+                            resultDiv.style.display = 'block';
+                        });
+                    } else {
+                        loadingDiv.style.display = 'none';
+                        resultDiv.textContent = `Servidor creado exitosamente:\n` +
+                                              `Nombre del servidor: ${data.details.nombre_servidor}\n` +
+                                              `Puerto: ${data.details.puerto}\n` +
+                                              `Imagen: ${data.details.imagen}\n` +
+                                              `Directorio: ${data.details.directorio}\n\n` +
+                                              `El servidor está en ejecución. Puedes conectarte usando el cliente Minetest.`;
+                        resultDiv.className = 'result-message success';
+                        resultDiv.style.display = 'block';
+                    }
                 } else {
+                    loadingDiv.style.display = 'none';
                     resultDiv.textContent = `Error: ${data.message}\n\n` +
                                           `Por favor, verifica que:\n` +
                                           `1. Tienes permisos de escritura en el directorio\n` +
                                           `2. Podman está instalado y funcionando\n` +
                                           `3. Tienes conexión a internet para descargar la imagen base`;
                     resultDiv.className = 'result-message error';
+                    resultDiv.style.display = 'block';
                 }
-                resultDiv.style.display = 'block';
             })
             .catch(error => {
                 loadingDiv.style.display = 'none';
