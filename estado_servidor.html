@@ -5,6 +5,154 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estado de Servidor - MineProject</title>
     <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #f2f2f2;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            margin-top: 120px;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .server-status {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .server-status h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .server-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .server-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .server-info {
+            flex: 1;
+        }
+
+        .server-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .server-details {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .server-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .control-btn.restart {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .control-btn.start {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .control-btn.stop {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .control-btn:hover {
+            opacity: 0.9;
+        }
+
+        .control-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .status-running {
+            background-color: #28a745;
+        }
+
+        .status-stopped {
+            background-color: #dc3545;
+        }
+
+        .status-unknown {
+            background-color: #ffc107;
+        }
+
+        .refresh-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .refresh-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -17,25 +165,21 @@
         </div>
     </header>
 
-    <section id="estado-servidor">
+    <main>
         <div class="container">
-            <h2>Estado de Servidores</h2>
-            
+            <h1>Estado de Servidores</h1>
+            <button class="refresh-btn" onclick="loadServerStatus()">Actualizar Estado</button>
             
             <div class="server-status">
-                <h3>Servidores Activos</h3>
+                <h2>Servidores Activos</h2>
                 <div class="server-list">
                     <!-- Aquí se cargarán dinámicamente los servidores -->
                 </div>
             </div>
         </div>
-    </section>
-
+    </main>
 
     <script>
-        // Lista de servidores a excluir (case insensitive)
-        const excludedServers = ["criaturas"];
-        
         // Función para cargar el estado de los servidores
         function loadServerStatus() {
             fetch('get_server_status.php')
@@ -49,19 +193,7 @@
                         return;
                     }
 
-                    // Filtrar para excluir los servidores en la lista de exclusión
-                    const filteredServers = data.servers.filter(server => {
-                        // Convertir a minúsculas para comparación sin distinción de mayúsculas/minúsculas
-                        const serverNameLower = server.name.toLowerCase();
-                        return !excludedServers.some(excluded => serverNameLower.includes(excluded));
-                    });
-
-                    if (filteredServers.length === 0) {
-                        serverList.innerHTML = '<p>No hay servidores activos</p>';
-                        return;
-                    }
-
-                    filteredServers.forEach(server => {
+                    data.servers.forEach(server => {
                         const serverItem = document.createElement('div');
                         serverItem.className = 'server-item';
                         
