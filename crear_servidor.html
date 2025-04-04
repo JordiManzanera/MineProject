@@ -248,12 +248,12 @@
                             <label for="mod_hidename">Hide Name - Ocultar etiqueta de nombre</label>
                         </div>
                         <div class="mod-option">
-                            <input type="checkbox" id="mod_knives" name="mods" value="knives">
-                            <label for="mod_knives">Knives - Cuchillos con daño extremo</label>
+                            <input type="checkbox" id="mod_auroras" name="mods" value="auroras">
+                            <label for="mod_auroras">Auroras - Auroras boreales y australes por la noche</label>
                         </div>
                         <div class="mod-option">
-                            <input type="checkbox" id="mod_toolranks" name="mods" value="toolranks">
-                            <label for="mod_toolranks">Tool Ranks - Sistema de niveles para herramientas</label>
+                            <input type="checkbox" id="emoji" name="mods[]" value="emoji">
+                            <label for="emoji">Emoji - Muestra iconos de emoji encima del jugador</label>
                         </div>
                     </div>
                 </div>
@@ -266,6 +266,29 @@
     </main>
 
     <script>
+        // Función para sincronizar la selección de mods Animalia y Creatura
+        function syncMods() {
+            const animaliaCheckbox = document.getElementById('mod_animalia');
+            const creaturaCheckbox = document.getElementById('mod_creatura');
+            
+            // Cuando se selecciona Animalia, seleccionar Creatura
+            animaliaCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    creaturaCheckbox.checked = true;
+                }
+            });
+            
+            // Cuando se selecciona Creatura, seleccionar Animalia
+            creaturaCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    animaliaCheckbox.checked = true;
+                }
+            });
+        }
+        
+        // Llamar a la función cuando el documento esté cargado
+        document.addEventListener('DOMContentLoaded', syncMods);
+
         function generateScript(formData) {
             const imageName = `server-${formData.username}`;
 

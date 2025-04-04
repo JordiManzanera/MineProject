@@ -11,7 +11,8 @@
             <img src="media/logo.png" alt="logo" width="90px" height="90px">
             <p class="logo">MineProject</p>
             <nav>
-                <a href="#aboutus">Home</a>
+                <a href="#hero">Home</a>
+                <a href="#aboutus">Sobre Nosotros</a>
                 <a href="#crear-servidor">Servidores</a>
                 <a href="#mods">Mods</a>
             </nav>
@@ -25,11 +26,19 @@
 
     <section id="aboutus">
         <div class="container">
-            <div class="img-container"></div>
+            <div class="img-container">
+                <div class="team-member">
+                    <img src="media/jordi.jpg" alt="Jordi" class="member-photo">
+                    <p class="member-email">jmanzanera@elpuig.xeill.net</p>
+                </div>
+                <div class="team-member">
+                    <img src="media/dani.png" alt="Dani" class="member-photo">
+                    <p class="member-email">drubiano@elpuig.xeill.net</p>
+                </div>
+            </div>
             <div class="texto">
-
                 <h2>Sobre <span class="color-acento">Nosotros</span></h2>
-                <p>Esta página está dedicada al hosting y creación de servidores del videojuego Minetest. Aquí encontrarás lo necesario para configurar tu servidor, personalizarlo con mods y una experiencia divertida e inolvidable.</p>
+                <p>MineProject es una página dedicada al hosting y creación de servidores del videojuego Minetest. Aquí encontrarás lo necesario para configurar tu servidor y personalizarlo con mods, asegurando así una experiencia divertida e inolvidable.</p>
             </div>
         </div>
     </section>
@@ -44,9 +53,9 @@
                     <button onclick="window.location.href='crear_servidor.html'" class="submit-btn button-animation">Crear Servidor</button>
                 </div>
                 <div class="carta">
-                    <h3>Servidores Existentes</h3>
-                    <p>Aquí ecnontrarás servidores creados por nosotros mismos. Estos servidores dispondrán de mods predefinidos para que puedas disfrutar de la experiencia de juego.</p>
-                    <button onclick="window.location.href='https://content.luanti.org/packages/'" class="submit-btn button-animation">Ver Servidores</button>
+                    <h3>Servidores Predefinidos</h3>
+                    <p>Aquí encontrarás servidores creados por nosotros mismos. Estos servidores dispondrán de mods predefinidos para que puedas disfrutar de la experiencia de juego.</p>
+                    <button onclick="window.location.href='servidores_predefinidos.html'" class="submit-btn button-animation">Ver Servidores</button>
                 </div>
                 <div class="carta">
                     <h3>Estado del Servidor</h3>
@@ -60,7 +69,7 @@
     <section id="mods">
         <div class="container">
             <div class="mods-header">
-                <h1>Mods</h1>
+                <h1>MODS</h1>
             </div>
 
             <div class="mods-grid">
@@ -169,32 +178,32 @@
                     </div>
                 </a>
 
-                <a href="https://content.luanti.org/packages/ApolloX/knives/" target="_blank" class="mod-card">
+                <a href="https://content.luanti.org/packages/random_geek/auroras/" target="_blank" class="mod-card">
                     <div class="mod-image">
-                        <img src="media/knives.png" alt="Knives">
+                        <img src="media/aurora.png" alt="Auroras">
                     </div>
                     <div class="mod-info">
-                        <h3>Knives</h3>
-                        <p class="mod-author">ApolloX</p>
-                        <p class="mod-description">Añade diversos tipos de cuchillos con daño extremo y modo de poder para daño doble.</p>
+                        <h3>Auroras</h3>
+                        <p class="mod-author">random_geek</p>
+                        <p class="mod-description">Añade auroras boreales y australes por la noche en lugares fríos.</p>
                         <div class="mod-tags">
-                            <span class="tag">Combat</span>
-                            <span class="tag">Herramientas</span>
+                            <span class="tag">Ambiente</span>
+                            <span class="tag">Clima</span>
                         </div>
                     </div>
                 </a>
 
-                <a href="https://content.luanti.org/packages/lisacvuk/toolranks/" target="_blank" class="mod-card">
+                <a href="https://content.luanti.org/packages/bosapara/emoji/" target="_blank" class="mod-card">
                     <div class="mod-image">
-                        <img src="media/tools.png" alt="Tool Ranks">
+                        <img src="media/emoji.png" alt="Emoji">
                     </div>
                     <div class="mod-info">
-                        <h3>Tool Ranks</h3>
-                        <p class="mod-author">lisacvuk</p>
-                        <p class="mod-description">Sistema de niveles para herramientas que mejora su durabilidad y eficiencia al usarlas.</p>
+                        <h3>Emoji</h3>
+                        <p class="mod-author">bosapara</p>
+                        <p class="mod-description">Muestra iconos de emoji encima del jugador con el comando "/e" o con emoticonos en el chat.</p>
                         <div class="mod-tags">
-                            <span class="tag">Herramientas</span>
-                            <span class="tag">Progresión</span>
+                            <span class="tag">Chat</span>
+                            <span class="tag">Efectos</span>
                         </div>
                     </div>
                 </a>

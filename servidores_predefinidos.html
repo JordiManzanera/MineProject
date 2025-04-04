@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Servidores Predefinidos - MineProject</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="media/logo.png" alt="logo" width="90px" height="90px">
+            <p class="logo">MineProject</p>
+            <nav>
+                <a href="index.html">Volver al inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="servidores-predefinidos">
+        <div class="container">
+            <h1 class="titulo-seccion">SERVIDORES PREDEFINIDOS</h1>
+            
+            <!-- Tarjeta simplificada -->
+            <div class="servidor-card-simple" id="servidor-card-simple">
+                <div class="servidor-header">
+                    <h2>Criaturas</h2>
+                </div>
+                <button class="info-btn" onclick="mostrarDetalles()">Info</button>
+            </div>
+            
+            <!-- Tarjeta detallada (inicialmente oculta) -->
+            <div class="servidor-detalles" id="servidor-detalles" style="display: none;">
+                <div class="servidor-info">
+                    <div class="servidor-header">
+                        <h2>Criaturas</h2>
+                    </div>
+                    
+                    <p class="servidor-descripcion">En el servidor Criaturas, podrás disfrutar de una experiencia de supervivencia pura y dura, gracias al mod Mob-engine.</p>
+                    
+                    <h3 class="caracteristicas-titulo">Características:</h3>
+                    <ul class="caracteristicas-list">
+                        <li><span class="caracteristica-icon">🧟</span> Zombies que aparecen por la noche</li>
+                        <li><span class="caracteristica-icon">👻</span> Fantasmas que acechan en las sombras</li>
+                        <li><span class="caracteristica-icon">🐺</span> Animales salvajes y domésticos</li>
+                    </ul>
+
+                    <div class="como-acceder">
+                        <h3 class="acceso-titulo">¿Cómo acceder al servidor?</h3>
+                        <div class="datos-servidor">
+                            <div class="dato-item">
+                                <span class="dato-label">IP:</span>
+                                <span class="dato-valor">192.168.237.146</span>
+                                <button class="copiar-btn" onclick="navigator.clipboard.writeText('192.168.237.146')">Copiar</button>
+                            </div>
+                            <div class="dato-item">
+                                <span class="dato-label">Puerto:</span>
+                                <span class="dato-valor">30002</span>
+                                <button class="copiar-btn" onclick="navigator.clipboard.writeText('30002')">Copiar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function mostrarDetalles() {
+            document.getElementById('servidor-card-simple').style.display = 'none';
+            document.getElementById('servidor-detalles').style.display = 'block';
+        }
+        
+        function reducirCarta() {
+            document.getElementById('servidor-detalles').style.display = 'none';
+            document.getElementById('servidor-card-simple').style.display = 'block';
+            
+            // Redirigir después de un breve retraso para permitir la animación
+            setTimeout(function() {
+                window.location.href = 'servidor_criaturas.html';
+            }, 500);
+        }
+    </script>
+</body>
+</html> 
